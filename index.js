@@ -1,15 +1,14 @@
 const express = require("express");
 const app = express();
 
+const connectDatabase = require("./src/database/db");
 const userRoute = require("./src/routes/user.route");
 
 const port = 3000;
 
+connectDatabase();
 app.use(express.json());
 app.use("/user", userRoute);
 
-// app.get("/", (req, res) => {
-//   res.send("Hello Node/Express World!!!");
-// });
 
-app.listen(port, ()=> console.log(`Servidor rodando na porta: ${port}`) );
+app.listen(port, () => console.log(`Servidor rodando na porta: ${port}`));
