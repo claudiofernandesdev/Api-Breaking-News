@@ -4,10 +4,10 @@ const connectDatabase = () => {
   console.log("Wait connecting to database");
 
   connect(
-      "mongodb+srv://ClaudioFernandes:PnkWI6jfVAymJuT6@cluster0.fwgjee4.mongodb.net/?retryWrites=true&w=majority"
+  process.env.MONGODB_URI
     )
     .then(() => console.log("MongoDB Atlas Connected"))
-    .catch((error) => console.log(error));
+    .catch((error) => console.log(`Error connecting to MongoDB Atlas: ${error}`));
 };
 
 export default connectDatabase;
