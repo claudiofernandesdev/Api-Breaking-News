@@ -1,8 +1,10 @@
-import express from 'express';
-const route = express.Router();
+import { Router } from 'express';
+
 import { create, findAll, findById, update } from "../controllers/user.controller.js";
 
 import { validId, validUser } from "../middlewares/global.middlewares.js";
+
+const route = Router();
 
 route.post("/", create);
 route.get("/", findAll);
