@@ -3,9 +3,10 @@ import {
   findAllService,
   countNews,
   topNewsService,
+  findByIdService,
 } from "../services/news.service.js";
 
-const create = async (req, res) => {
+export const create = async (req, res) => {
   try {
     const { title, text, banner } = req.body;
 
@@ -26,7 +27,7 @@ const create = async (req, res) => {
   }
 };
 
-const findAll = async (req, res) => {
+export const findAll = async (req, res) => {
   try {
     let { limit, offset } = req.query;
     limit = Number(limit);
@@ -70,6 +71,7 @@ const findAll = async (req, res) => {
         title: item.title,
         text: item.text,
         banner: item.banner,
+        created: item.createdAt,
         likes: item.likes,
         comments: item.comments,
         name: item.user.name,
@@ -82,7 +84,7 @@ const findAll = async (req, res) => {
   }
 };
 
-const topNews = async (req, res) => {
+export const topNews = async (req, res) => {
   try {
     const news = await topNewsService();
 
@@ -109,4 +111,26 @@ const topNews = async (req, res) => {
   }
 };
 
-export { create, findAll, topNews };
+export const findById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const news = await findByIdService(id);
+    res.send({
+      news: {
+        id: news._id,
+        title: news.title,
+        text: news.text,
+        banner: news.banner,
+        created: news.createdAt,
+        likes: news.likes,
+        comments: news.comments,
+        name: news.user.name,
+        userName: news.user.username,
+        userAvatar: news.user.avatar,
+      },
+    });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
