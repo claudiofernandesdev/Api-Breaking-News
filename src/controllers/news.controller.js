@@ -169,7 +169,7 @@ export const searchByTitle = async (req, res) => {
 export const byUser = async (req, res) => {
   try {
     const id = req.userId;
-    const news = await byIdService(id);
+    const news = await byUserService(id);
 
     res.send({
       results: news.map((item) => ({
