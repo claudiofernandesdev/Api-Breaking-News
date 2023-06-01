@@ -4,6 +4,8 @@ import {
   countNews,
   topNewsService,
   findByIdService,
+  searchByTitleService,
+  byUserService,
 } from "../services/news.service.js";
 
 export const create = async (req, res) => {
@@ -11,7 +13,7 @@ export const create = async (req, res) => {
     const { title, text, banner } = req.body;
 
     if (!title || !text || !banner) {
-      res.status(400).send({ message: "Submit all fields for registration" });
+      return res.status(400).send({ message: "Submit all fields for registration" });
     }
 
     await createService({
@@ -89,7 +91,7 @@ export const topNews = async (req, res) => {
     const news = await topNewsService();
 
     if (!news) {
-      res.status(400).send({ message: "There is no registered post!" });
+      return res.status(400).send({ message: "There is no registered post!" });
     }
 
     res.send({
@@ -132,5 +134,59 @@ export const findById = async (req, res) => {
     });
   } catch (err) {
     res.status(500).send(err.message);
+  }
+};
+
+export const searchByTitle = async (req, res) => {
+  try {
+    const { title } = req.query;
+
+    const news = await searchByTitleService(title);
+
+    if (news.length === 0) {
+      return res.status(400).send({ message: "There is no news with this title!" });
+    }
+
+    res.send({
+      results: news.map((item) => ({
+        id: item._id,
+        title: item.title,
+        text: item.text,
+        banner: item.banner,
+        created: item.createdAt,
+        likes: item.likes,
+        comments: item.comments,
+        name: item.user.name,
+        userName: item.user.username,
+        userAvatar: item.user.avatar,
+      })),
+    });
+  } catch (err) {
+    res.status(500).send({message: err.message});
+  }
+};
+
+export const byUser = async (req, res) => {
+  try {
+    const id = req.userId;
+    const news = await byIdService(id);
+
+    res.send({
+      results: news.map((item) => ({
+        id: item._id,
+        title: item.title,
+        text: item.text,
+        banner: item.banner,
+        created: item.createdAt,
+        likes: item.likes,
+        comments: item.comments,
+        name: item.user.name,
+        userName: item.user.username,
+        userAvatar: item.user.avatar,
+      })),
+    });
+
+  } catch (err) {
+    res.status(500).send({message: err.message});
   }
 };
