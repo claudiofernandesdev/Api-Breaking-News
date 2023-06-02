@@ -209,7 +209,7 @@ export const update = async (req, res) => {
 
     const news = await findByIdService(id);
 
-    if (String(news.user.id) !== req.userId) {
+    if (news.user.id != req.userId) {
       return res.status(400).send({ message: "You didn't update this news!" });
     }
 
