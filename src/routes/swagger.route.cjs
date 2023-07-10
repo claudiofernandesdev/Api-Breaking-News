@@ -3,7 +3,7 @@ const swaggerUi = require("swagger-ui-express");
 
 const swaggerDocument =  require ("../swagger.json");
 
-swaggerRouter.use("/", swaggerUi.serve);
-swaggerRouter.get("/", swaggerUi.setup(swaggerDocument));
+router.use("/", swaggerUi.serve);
+router.get("/", swaggerUi.setup(swaggerDocument));
 
 module.export = router;
