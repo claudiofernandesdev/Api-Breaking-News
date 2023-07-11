@@ -5,7 +5,7 @@
   "description": "API for SPA course Mern-Stack Thi Code - Youtube",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index",
+    "start": "node index",
     "dev": "nodemon index"
   },
   "keywords": [],
